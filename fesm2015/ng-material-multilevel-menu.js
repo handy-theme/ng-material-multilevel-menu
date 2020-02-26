@@ -590,7 +590,7 @@ class ListItemComponent {
      * @return {?}
      */
     dividerEnabled() {
-        return (this.node.dividerLine === null) ? this.node.dividerLine : this.nodeConfiguration.dividerLineOnEachNodeByDefault;
+        return (this.node.dividerLine == null) ? this.nodeConfiguration.dividerLineOnEachNodeByDefault : this.node.dividerLine;
     }
 }
 ListItemComponent.decorators = [
