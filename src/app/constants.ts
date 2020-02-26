@@ -4,11 +4,13 @@ export const constant = {
             label: 'Item 1 (with Font awesome icon)',
             svgIcon: 'psychology',
             activeSvgIcon: 'activePsychology',
+            dividerLine: true,
             items: [
                 {
                     label: 'Alter Configurations',
                     faIcon: 'fa fa-address-book',
                     activeFaIcon: 'fa fa-id-card',
+                    dividerLine: false,
                     items: [
                         {
                             label: 'Default',
@@ -73,6 +75,7 @@ export const constant = {
         paddingAtStart: true,
         interfaceWithRoute: true,
         rtlLayout: false,
+        dividerLineOnEachNodeByDefault: false
     },
     appItems: [
         {
@@ -82,7 +85,7 @@ export const constant = {
                 {
                     label: 'Item 1.1',
                     link: '/item-1-1',
-                    faIcon: 'fab fa-accusoft'
+                    faIcon: 'fab fa-accusoft',
                 },
                 {
                     label: 'Item 1.2',

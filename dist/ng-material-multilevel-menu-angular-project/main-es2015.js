@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-list-item matRipple [matRippleDisabled]=\"node.disabled\" [ngClass]=\"selectedListClasses\" *ngIf=\"!node.hidden\"\r\n  (click)=\"expand(node)\" title=\"{{node.label}}\"\r\n  [ngStyle]=\"getListStyle()\">\r\n  <div class=\"anml-data\" [dir]=\"isRtlLayout() ? 'rtl' : 'ltr'\">\r\n    <div class=\"icon-container\" [ngSwitch]=\"getListIcon(node)\">\r\n      <span *ngSwitchCase=\"'faicon'\" class=\"amml-icon amml-icon-fa\">\r\n        <i [ngClass]=\"getSelectedFaIcon()\"></i>\r\n      </span>\r\n      <mat-icon *ngSwitchCase=\"'icon'\" class=\"amml-icon\">\r\n        {{getSelectedIcon()}}\r\n      </mat-icon>\r\n      <mat-icon *ngSwitchCase=\"'svgicon'\" svgIcon=\"{{getSelectedSvgIcon()}}\" class=\"amml-icon amml-svg-icon\">\r\n      </mat-icon>\r\n      <img matListAvatar *ngSwitchCase=\"'imageicon'\" class=\"amml-icon\" src=\"{{getSelectedImageIcon()}}\" alt=\"{{node.label}}\"/>\r\n    </div>\r\n    <span class=\"label\">{{node.label}}</span>\r\n  </div>\r\n  <div class=\"amml-icon-arrow-container\" *ngIf='hasItems()'>\r\n    <mat-icon *ngIf='!isRtlLayout()' [@isExpandedLTR]=\"expanded ? 'yes' : 'no'\">\r\n      keyboard_arrow_down\r\n    </mat-icon>\r\n    <mat-icon *ngIf='isRtlLayout()'  [@isExpandedRTL]=\"expanded ? 'yes' : 'no'\">\r\n      keyboard_arrow_down\r\n    </mat-icon>\r\n  </div>\r\n</mat-list-item>\r\n\r\n<!-- <mat-divider></mat-divider> -->\r\n\r\n<div *ngIf=\"hasItems() && expanded\" [@slideInOut] [dir]=\"isRtlLayout() ? 'rtl' : 'ltr'\" [ngClass]=\"classes\">\r\n  <ng-list-item *ngFor=\"let singleNode of nodeChildren | keyvalue : multilevelMenuService.kvDummyComparerFn\"\r\n    [nodeConfiguration]='nodeConfiguration'\r\n    [node]=\"singleNode.value\"\r\n    [level]=\"level + 1\"\r\n    [submenuLevel]=\"singleNode.key\"\r\n    [selectedNode]='selectedNode'\r\n    (selectedItem)=\"selectedListItem($event)\">\r\n  </ng-list-item>\r\n</div>\r\n"
+module.exports = "<mat-list-item matRipple [matRippleDisabled]=\"node.disabled\" [ngClass]=\"selectedListClasses\" *ngIf=\"!node.hidden\"\r\n  (click)=\"expand(node)\" title=\"{{node.label}}\"\r\n  [ngStyle]=\"getListStyle()\">\r\n  <div class=\"anml-data\" [dir]=\"isRtlLayout() ? 'rtl' : 'ltr'\">\r\n    <div class=\"icon-container\" [ngSwitch]=\"getListIcon(node)\">\r\n      <span *ngSwitchCase=\"'faicon'\" class=\"amml-icon amml-icon-fa\">\r\n        <i [ngClass]=\"getSelectedFaIcon()\"></i>\r\n      </span>\r\n      <mat-icon *ngSwitchCase=\"'icon'\" class=\"amml-icon\">\r\n        {{getSelectedIcon()}}\r\n      </mat-icon>\r\n      <mat-icon *ngSwitchCase=\"'svgicon'\" svgIcon=\"{{getSelectedSvgIcon()}}\" class=\"amml-icon amml-svg-icon\">\r\n      </mat-icon>\r\n      <img matListAvatar *ngSwitchCase=\"'imageicon'\" class=\"amml-icon\" src=\"{{getSelectedImageIcon()}}\" alt=\"{{node.label}}\"/>\r\n    </div>\r\n    <span class=\"label\">{{node.label}}</span>\r\n  </div>\r\n  <div class=\"amml-icon-arrow-container\" *ngIf='hasItems()'>\r\n    <mat-icon *ngIf='!isRtlLayout()' [@isExpandedLTR]=\"expanded ? 'yes' : 'no'\">\r\n      keyboard_arrow_down\r\n    </mat-icon>\r\n    <mat-icon *ngIf='isRtlLayout()'  [@isExpandedRTL]=\"expanded ? 'yes' : 'no'\">\r\n      keyboard_arrow_down\r\n    </mat-icon>\r\n  </div>\r\n</mat-list-item>\r\n\r\n<mat-divider *ngIf='dividerEnabled()'></mat-divider>\r\n\r\n<div *ngIf=\"hasItems() && expanded\" [@slideInOut] [dir]=\"isRtlLayout() ? 'rtl' : 'ltr'\" [ngClass]=\"classes\">\r\n  <ng-list-item *ngFor=\"let singleNode of nodeChildren | keyvalue : multilevelMenuService.kvDummyComparerFn\"\r\n    [nodeConfiguration]='nodeConfiguration'\r\n    [node]=\"singleNode.value\"\r\n    [level]=\"level + 1\"\r\n    [submenuLevel]=\"singleNode.key\"\r\n    [selectedNode]='selectedNode'\r\n    (selectedItem)=\"selectedListItem($event)\">\r\n  </ng-list-item>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -258,6 +258,9 @@ let ListItemComponent = class ListItemComponent {
     }
     selectedListItem(node) {
         this.selectedItem.emit(node);
+    }
+    dividerEnabled() {
+        return (this.node.dividerLine == null) ? this.nodeConfiguration.dividerLineOnEachNodeByDefault : this.node.dividerLine;
     }
 };
 ListItemComponent.ctorParameters = () => [
@@ -517,6 +520,7 @@ let NgMaterialMultilevelMenuComponent = class NgMaterialMultilevelMenuComponent 
             collapseOnSelect: null,
             highlightOnSelect: false,
             rtlLayout: false,
+            dividerLineOnEachNodeByDefault: false
         };
         this.isInvalidConfig = true;
     }
@@ -600,6 +604,11 @@ let NgMaterialMultilevelMenuComponent = class NgMaterialMultilevelMenuComponent 
                 config.rtlLayout !== undefined &&
                 typeof config.rtlLayout === 'boolean') {
                 this.nodeConfig.rtlLayout = config.rtlLayout;
+            }
+            if (config.dividerLineOnEachNodeByDefault !== null &&
+                config.dividerLineOnEachNodeByDefault !== undefined &&
+                typeof config.dividerLineOnEachNodeByDefault === 'boolean') {
+                this.nodeConfig.dividerLineOnEachNodeByDefault = config.dividerLineOnEachNodeByDefault;
             }
             this.checkValidData();
         }
@@ -944,11 +953,13 @@ const constant = {
             label: 'Item 1 (with Font awesome icon)',
             svgIcon: 'psychology',
             activeSvgIcon: 'activePsychology',
+            dividerLine: true,
             items: [
                 {
                     label: 'Alter Configurations',
                     faIcon: 'fa fa-address-book',
                     activeFaIcon: 'fa fa-id-card',
+                    dividerLine: false,
                     items: [
                         {
                             label: 'Default',
@@ -1012,6 +1023,7 @@ const constant = {
         paddingAtStart: true,
         interfaceWithRoute: true,
         rtlLayout: false,
+        dividerLineOnEachNodeByDefault: false
     },
     appItems: [
         {
@@ -1021,7 +1033,7 @@ const constant = {
                 {
                     label: 'Item 1.1',
                     link: '/item-1-1',
-                    faIcon: 'fab fa-accusoft'
+                    faIcon: 'fab fa-accusoft',
                 },
                 {
                     label: 'Item 1.2',

@@ -37,4 +37,5 @@ export declare class ListItemComponent implements OnChanges, OnInit {
     setClasses(): void;
     expand(node: MultilevelNodes): void;
     selectedListItem(node: MultilevelNodes): void;
+    dividerEnabled(): boolean;
 }

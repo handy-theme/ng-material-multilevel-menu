@@ -19,6 +19,7 @@ export interface MultilevelNodes {
     disabled?: boolean;
     expanded?: boolean;
     navigationExtras?: NavigationExtras;
+    dividerLine?: boolean;
 }
 export interface Configuration {
     classname?: string;
@@ -31,6 +32,7 @@ export interface Configuration {
     collapseOnSelect?: boolean;
     highlightOnSelect?: boolean;
     rtlLayout?: boolean;
+    dividerLineOnEachNodeByDefault?: boolean;
 }
 export interface BackgroundStyle {
     background: string;

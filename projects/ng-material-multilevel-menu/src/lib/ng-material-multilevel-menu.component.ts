@@ -26,6 +26,7 @@ export class NgMaterialMultilevelMenuComponent implements OnInit, OnChanges {
     collapseOnSelect: null,
     highlightOnSelect: false,
     rtlLayout: false,
+    dividerLineOnEachNodeByDefault: false
   };
   isInvalidConfig = true;
   constructor(
@@ -112,6 +113,11 @@ export class NgMaterialMultilevelMenuComponent implements OnInit, OnChanges {
         config.rtlLayout !== undefined &&
         typeof config.rtlLayout === 'boolean') {
         this.nodeConfig.rtlLayout = config.rtlLayout;
+      }
+      if (config.dividerLineOnEachNodeByDefault !== null &&
+        config.dividerLineOnEachNodeByDefault !== undefined &&
+        typeof config.dividerLineOnEachNodeByDefault === 'boolean') {
+        this.nodeConfig.dividerLineOnEachNodeByDefault = config.dividerLineOnEachNodeByDefault;
       }
       this.checkValidData();
     }

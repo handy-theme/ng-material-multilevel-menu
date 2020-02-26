@@ -213,4 +213,7 @@ export class ListItemComponent implements OnChanges, OnInit {
   selectedListItem(node: MultilevelNodes): void {
     this.selectedItem.emit(node);
   }
+  dividerEnabled(): boolean {
+    return (this.node.dividerLine == null) ?  this.nodeConfiguration.dividerLineOnEachNodeByDefault : this.node.dividerLine;
+  }
 }
